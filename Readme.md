@@ -1,3 +1,3 @@
-## Membuat Registry File
+## Memperbaiki Method Request Pada Api Gateway
 
-Yang kita lakukan adalah mengelompokkan apiName kita ke dalam file json sehingga lebih dinamis ketika kita melakukan request
+Sebelumnya api gateway kita hanya bisa menerima "GET" request saja, kali ini kita perbaharui sehingga dapat menerima method yang lainnya (post, put, dll)
