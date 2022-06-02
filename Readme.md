@@ -1,3 +1,3 @@
-## Meneruskan Request Dari Gateway Ke Api Server
+## Membuat Registry File
 
-Kita pakai axios untuk menerima request dan mengarahkannya ke server api yang sudah kita buat
+Yang kita lakukan adalah mengelompokkan apiName kita ke dalam file json sehingga lebih dinamis ketika kita melakukan request
