@@ -8,7 +8,7 @@ app.get("/fakeapi", (req, res, next) => {
   res.send("Halo from fakepi server");
 });
 
-app.get("/mantabapi", (req, res, next) => {
+app.post("/mantabapi", (req, res, next) => {
   res.send("Response dari mantab!!");
 });
 
