@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 const registry = require("./registry.json");
+const fs = require("fs");
 
 router.all("/:apiName/:path", (req, res) => {
   console.log(req.params.apiName);
@@ -17,6 +18,20 @@ router.all("/:apiName/:path", (req, res) => {
   } else {
     res.send("Api name tidak ditemukan");
   }
+});
+
+router.post("/register", (req, res) => {
+  const registryInfo = req.body;
+
+  registry.services[registryInfo.apiName] = { ...registryInfo };
+
+  fs.writeFile("./routes/registry.json", JSON.stringify(registry), (error) => {
+    if (error) {
+      res.send("Api gateway gagal didaftarkan");
+    } else {
+      res.send("Api gateway berhasil didaftarkan");
+    }
+  });
 });
 
 module.exports = router;
