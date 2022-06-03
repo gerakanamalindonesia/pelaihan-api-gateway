@@ -1,3 +1,3 @@
-## Memperbaiki Method Request Pada Api Gateway
+## Mendaftarkan Api Ke Registry Secara Otomatis Saat Kita Membuat API
 
-Sebelumnya api gateway kita hanya bisa menerima "GET" request saja, kali ini kita perbaharui sehingga dapat menerima method yang lainnya (post, put, dll)
+Saat kita membuat api (mangaksesnya), dengan menggunakan method POST kita bisa mendaftarkannya langsung ke registry (json) yang sudah kita buat.

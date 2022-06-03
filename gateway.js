@@ -3,6 +3,8 @@ const app = express();
 const PORT = 4000;
 const routes = require("./routes");
 
+app.use(express.json());
+
 app.use("/", routes);
 
 app.listen(PORT, () => {
