@@ -1,16 +1,10 @@
 {
   "services": {
-    "fakeapi": {
-      "apiName": "fakeapi",
-      "host": "http://localhost",
-      "port": 4001,
-      "url": "http://localhost:4001/"
-    },
     "registryTest": {
       "apiName": "registryTest",
       "host": "http://localhost",
-      "port": "4001",
-      "url": "http://localhost:4001/"
+      "port": 4001,
+      "url": "http://localhost:4001"
     }
   }
 }
