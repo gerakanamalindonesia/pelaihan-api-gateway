@@ -2,9 +2,10 @@
   "services": {
     "registryTest": {
       "apiName": "registryTest",
-      "host": "http://localhost",
+      "protocol": "http",
+      "host": "localhost",
       "port": 4001,
-      "url": "http://localhost:4001"
+      "url": "http://localhost:4001/"
     }
   }
 }
