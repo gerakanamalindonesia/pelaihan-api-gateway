@@ -1,4 +1,5 @@
 const express = require("express");
+const { apiRegiter } = require("./apiRegister");
 const PORT = 4001;
 const app = express();
 
@@ -13,5 +14,6 @@ app.post("/mantabapi", (req, res, next) => {
 });
 
 app.listen(PORT, () => {
+  apiRegiter();
   console.log(`Server fakeapi berjalan di port ${PORT}`);
 });

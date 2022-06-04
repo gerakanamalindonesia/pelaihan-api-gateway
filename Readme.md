@@ -1,3 +1,3 @@
-## Mendaftarkan Api Ke Registry Secara Otomatis Saat Kita Membuat API
+## Mendaftarkan Api Ke Gateway Secara Otomatis Saat Server Dijalankan
 
-Saat kita membuat api (mangaksesnya), dengan menggunakan method POST kita bisa mendaftarkannya langsung ke registry (json) yang sudah kita buat.
+Yang kita lakukan adalah melakukan konfigurasi ketika server api dijalankan maka akan mendaftarkan api ke registry (registry.json). Ini seolah oleh kita membuat gateway secara otomatis ketika server api dijalankan.
