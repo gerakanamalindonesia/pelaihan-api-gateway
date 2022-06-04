@@ -23,6 +23,7 @@ router.all("/:apiName/:path", (req, res) => {
 router.post("/register", (req, res) => {
   const registryInfo = req.body;
 
+  registryInfo.url = `${registryInfo.protocol}://${registryInfo.host}:${registryInfo.port}/`;
   registry.services[registryInfo.apiName] = { ...registryInfo };
 
   fs.writeFile("./routes/registry.json", JSON.stringify(registry), (error) => {

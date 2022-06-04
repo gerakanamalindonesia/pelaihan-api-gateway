@@ -1,5 +1,5 @@
 const axios = require("axios");
-const HOST = "http://localhost";
+const HOST = "localhost";
 const PORT = 4001;
 
 exports.apiRegiter = () => {
@@ -9,9 +9,9 @@ exports.apiRegiter = () => {
     headers: { "Content-Type": "application/json" },
     data: {
       apiName: "registryTest",
+      protocol: "http",
       host: HOST,
       port: PORT,
-      url: `${HOST}:${PORT}`,
     },
   }).then((response) => {
     console.log(response.data);
