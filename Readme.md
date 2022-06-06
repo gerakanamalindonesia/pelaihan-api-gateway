@@ -1,4 +1,3 @@
-## Mendaftarkan Beberapa Api Ke Ke Service yang Sama
+## Menghapus (Unregister) Instance API Dari Service di Gateway
 
-Jadi misal kita ada satu service, dan kita ingin mendaftarkan beberapa API ke service tersebut. Ini memungkinkan kita mendaftarkan api (lebih dari satu) ke satu service yang sama di dalam gateway yang mungkin berbeda port-nya (artinya tidak dalam aplikasi yang sama, karena biasanya satu port untuk satu aplikasi).
-Biasanya instance api dari service tersebut akan berupa array of object
+Jika sebelumnya kita sudah berhasil dalam menambahkan instance api ke dalam suatu service di gatway, maka kali ini kita lakukan unregister / menghapus instance api dari suatu service di gateway

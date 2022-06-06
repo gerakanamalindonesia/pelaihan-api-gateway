@@ -51,6 +51,40 @@ router.post("/register", (req, res) => {
   }
 });
 
+router.post("/unregister", (req, res) => {
+  const registrationInfo = req.body;
+
+  if (apiAlreadyExists(registrationInfo)) {
+    const index = registry.services[registrationInfo.apiName].findIndex(
+      (instance) => {
+        return registrationInfo.url === instance.url;
+      }
+    );
+
+    registry.services[registrationInfo.apiName].splice(index, 1);
+
+    fs.writeFile(
+      "./routes/registry.json",
+      JSON.stringify(registry),
+      (error) => {
+        if (error) {
+          res.send("Api gateway gagal dihapus");
+        } else {
+          res.send("Api gateway berhasil dihapus");
+        }
+      }
+    );
+  } else {
+    res.send(
+      "Configuration does not exist for '" +
+        registrationInfo.apiName +
+        "' at '" +
+        registrationInfo.url +
+        "'"
+    );
+  }
+});
+
 const apiAlreadyExists = (registryInfo) => {
   let exists = false;
 
