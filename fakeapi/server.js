@@ -1,6 +1,6 @@
 const express = require("express");
 const { apiRegiter } = require("./apiRegister");
-const PORT = 4001;
+const PORT = 4002;
 const app = express();
 
 app.use(express.json());
