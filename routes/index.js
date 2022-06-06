@@ -22,17 +22,46 @@ router.all("/:apiName/:path", (req, res) => {
 
 router.post("/register", (req, res) => {
   const registryInfo = req.body;
-
   registryInfo.url = `${registryInfo.protocol}://${registryInfo.host}:${registryInfo.port}/`;
-  registry.services[registryInfo.apiName] = { ...registryInfo };
 
-  fs.writeFile("./routes/registry.json", JSON.stringify(registry), (error) => {
-    if (error) {
-      res.send("Api gateway gagal didaftarkan");
-    } else {
-      res.send("Api gateway berhasil didaftarkan");
+  if (apiAlreadyExists(registryInfo)) {
+    // memeriksa apakah api yang diregister sudah ada atau belum
+    // Return already exist
+    res.send(
+      "Configuration already exist for '" +
+        registryInfo.apiName +
+        "' at '" +
+        registryInfo.url +
+        "'"
+    );
+  } else {
+    registry.services[registryInfo.apiName].push({ ...registryInfo });
+
+    fs.writeFile(
+      "./routes/registry.json",
+      JSON.stringify(registry),
+      (error) => {
+        if (error) {
+          res.send("Api gateway gagal didaftarkan");
+        } else {
+          res.send("Api gateway berhasil didaftarkan");
+        }
+      }
+    );
+  }
+});
+
+const apiAlreadyExists = (registryInfo) => {
+  let exists = false;
+
+  registry.services[registryInfo.apiName].forEach((instance) => {
+    if (instance.url === registryInfo.url) {
+      exists = true;
+      return;
     }
   });
-});
+
+  return exists;
+};
 
 module.exports = router;
