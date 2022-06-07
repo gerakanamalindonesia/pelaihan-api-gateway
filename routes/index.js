@@ -3,18 +3,42 @@ const router = express.Router();
 const axios = require("axios");
 const registry = require("./registry.json");
 const fs = require("fs");
+const loadbalancer = require("../util/loadbalancer");
 
 router.all("/:apiName/:path", (req, res) => {
-  console.log(req.params.apiName);
-  if (registry.services[req.params.apiName]) {
+  const service = registry.services[req.params.apiName];
+
+  if (!service.loadBalanceStrategy) {
+    service.loadBalanceStrategy = "ROUND_ROBIN";
+    fs.writeFile(
+      "./routes/registry.json",
+      JSON.stringify(registry),
+      (error) => {
+        if (error) {
+          res.send("Success write load balance strategy");
+        } else {
+          res.send("Could not write load balance strategy :", error);
+        }
+      }
+    );
+  }
+
+  if (service) {
+    const newIndex = loadbalancer[service.loadBalanceStrategy](service);
+    const url = service.instances[newIndex].url;
+    console.log(url);
     axios({
       method: req.method,
-      url: registry.services[req.params.apiName].url + req.params.path,
+      url: url + req.params.path,
       headers: req.headers,
       data: req.body,
-    }).then((response) => {
-      res.send(response.data);
-    });
+    })
+      .then((response) => {
+        res.send(response.data);
+      })
+      .catch((error) => {
+        res.status(400).send("");
+      });
   } else {
     res.send("Api name tidak ditemukan");
   }
@@ -35,7 +59,7 @@ router.post("/register", (req, res) => {
         "'"
     );
   } else {
-    registry.services[registryInfo.apiName].push({ ...registryInfo });
+    registry.services[registryInfo.apiName].instances.push({ ...registryInfo });
 
     fs.writeFile(
       "./routes/registry.json",
@@ -55,13 +79,13 @@ router.post("/unregister", (req, res) => {
   const registrationInfo = req.body;
 
   if (apiAlreadyExists(registrationInfo)) {
-    const index = registry.services[registrationInfo.apiName].findIndex(
-      (instance) => {
-        return registrationInfo.url === instance.url;
-      }
-    );
+    const index = registry.services[
+      registrationInfo.apiName
+    ].instances.findIndex((instance) => {
+      return registrationInfo.url === instance.url;
+    });
 
-    registry.services[registrationInfo.apiName].splice(index, 1);
+    registry.services[registrationInfo.apiName].instances.splice(index, 1);
 
     fs.writeFile(
       "./routes/registry.json",
@@ -88,7 +112,7 @@ router.post("/unregister", (req, res) => {
 const apiAlreadyExists = (registryInfo) => {
   let exists = false;
 
-  registry.services[registryInfo.apiName].forEach((instance) => {
+  registry.services[registryInfo.apiName].instances.forEach((instance) => {
     if (instance.url === registryInfo.url) {
       exists = true;
       return;
