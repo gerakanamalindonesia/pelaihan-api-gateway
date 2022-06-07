@@ -5,6 +5,42 @@ const registry = require("./registry.json");
 const fs = require("fs");
 const loadbalancer = require("../util/loadbalancer");
 
+router.post("/enable/:apiName", (req, res) => {
+  const apiName = req.params.apiName;
+  const requestBody = req.body;
+  const instances = registry.services[apiName].instances;
+  const index = instances.findIndex((srv) => {
+    // membandingkan apakah ada apiName di gateway atau tidak
+    return srv.url === requestBody.url;
+  });
+
+  if (index == -1) {
+    // jika apiName tidak ada
+    res.send({
+      status: "error",
+      message:
+        "Could not find ['" +
+        requestBody.url +
+        "'] for service " +
+        apiName +
+        "'",
+    });
+  } else {
+    instances[index].enabled = requestBody.enabled;
+    fs.writeFile(
+      "./routes/registry.json",
+      JSON.stringify(registry),
+      (error) => {
+        if (error) {
+          res.send("Could not enable/disable :", error);
+        } else {
+          res.send("Success enable / disable");
+        }
+      }
+    );
+  }
+});
+
 router.all("/:apiName/:path", (req, res) => {
   const service = registry.services[req.params.apiName];
 
@@ -15,9 +51,9 @@ router.all("/:apiName/:path", (req, res) => {
       JSON.stringify(registry),
       (error) => {
         if (error) {
-          res.send("Success write load balance strategy");
-        } else {
           res.send("Could not write load balance strategy :", error);
+        } else {
+          res.send("Success write load balance strategy");
         }
       }
     );
