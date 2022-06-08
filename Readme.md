@@ -1,5 +1,4 @@
-## Mengaktifkan dan Menonaktifkan Instance API
+## Menambahkan Otentikasi di Gateway
 
-Di sini kita menambahkan sebuah fungsi untuk mengatur gateway kita supaya instance api yang kita buat bisa di-enable/disable. Kita tambahkan satatus aktif di gaateway kita.
-
-Ketika aplikasi statusnya false(tidak aktif) maka load balancer tidak akan bisa mendistribusikan request ke aplikasi tersebut.
+Pada bagian ini kita menambahkan otentikasi, yang mana sebelum masuk ke gateway terlebih dahulu harus diotentikasi.
+Konsepnya adalah ketika instance api yang mau didaftarkan di service gateway harus menyertakan username dan password yang akan dicek oleh gateway, ketika lolos maka bisa didaftarkan di gatweay dan ketika tidak maka akan ditolak. Jadi ini buka otentikasi untuk request yang masuk di gateway ya.
