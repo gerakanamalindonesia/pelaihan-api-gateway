@@ -5,6 +5,8 @@ const PORT = 4000;
 const routes = require("./routes");
 const registry = require("./routes/registry.json");
 
+app.use(express.static("public"));
+app.set("view engine", "ejs");
 app.use(helmet());
 app.use(express.json());
 
@@ -42,6 +44,9 @@ const auth = (req, res, next) => {
   }
 };
 
+app.get("/ui", (req, res) => {
+  res.render("index");
+});
 app.use(auth);
 app.use("/", routes);
 
